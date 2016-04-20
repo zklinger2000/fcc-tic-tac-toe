@@ -1,0 +1,25 @@
+{
+  "name": "TicTacToe",
+  "homepage": "https://github.com/zklinger2000/fcc-tic-tac-toe",
+  "authors": [
+    "Zack Klinger <zklinger@gmail.com>"
+  ],
+  "description": "Testing a Tic-Tac-Toe game",
+  "main": "test/index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "underscore": "~1.6.0",
+    "chai": "~1.9.1",
+    "mocha": "~1.18.2"
+  }
+}

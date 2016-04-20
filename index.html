@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zack Klinger, Web Developer, Portland, OR</title>
+  <!-- load jQuery -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- link to Bootstrap js -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- link to Bootstrap stylesheet -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <!-- load AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <!-- link to main stylesheet -->
+  <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+  <!-- Oxygen font -->
+  <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>  <script src="app.js" type="application/javascript"></script> 
+</head>
+<body ng-app="ticTacToeApp">
+  <div class="wrapper" ng-controller="MainController as vm">
+    <header>
+      <h1>Tic Tac Toe</h1>
+    </header>
+    <div class="gameBoard">
+      <div ng-repeat="row in vm.ticTacToe.gameBoard">
+        <div class="square" ng-repeat="square in row">
+          row: {{ square.row }}
+          col: {{ square.col }}
+          token: {{ square.token }}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
