@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zack Klinger, Web Developer, Portland, OR</title>
+  <!-- load underscore -->
+  <script src="bower_components/underscore/underscore.js"></script>
   <!-- load jQuery -->
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <!-- link to Bootstrap js -->
@@ -22,9 +24,20 @@
     <header>
       <h1>Tic Tac Toe</h1>
     </header>
+    <div class="input-group chooseToken" ng-show="vm.ticTacToe._playerToken === ''">
+      <label for="chooseToken">Choose token: </label><br>
+      <div id="chooseToken" class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default" ng-click="vm.ticTacToe.setPlayerToken('X')">
+          <input name="options" id="option1" type="radio"> X
+        </label>
+        <label class="btn btn-default" ng-click="vm.ticTacToe.setPlayerToken('O')">
+          <input name="options" id="option2" type="radio"> O
+        </label>
+      </div>
+    </div>
     <div class="gameBoard">
       <div ng-repeat="row in vm.ticTacToe.gameBoard">
-        <div class="square" ng-repeat="square in row">
+        <div class="square" ng-repeat="square in row" ng-click="vm.ticTacToe.winState||vm.ticTacToe.pickSquare(square)">
           row: {{ square.row }}
           col: {{ square.col }}
           token: {{ square.token }}

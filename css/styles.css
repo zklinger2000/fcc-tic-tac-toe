@@ -14,6 +14,10 @@ html, body {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
 }
+.chooseToken {
+  align-self: center;
+  padding: 20px;
+}
 .gameBoard {
   width: 300px;
   margin: 0 auto;
@@ -26,6 +30,10 @@ html, body {
 }
 
 /* Flexbox */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .gameBoard {
   display: flex;
   flex-wrap: wrap;
