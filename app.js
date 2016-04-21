@@ -51,7 +51,17 @@ angular.module('ticTacToeApp', [])
         return acc + (square.token === obj._playerToken ? 1 : 0);
       }, 0));
     });
-    // Take highest ranked move and block
+    // Find highest ranked move
+    var nextMove = nextMoveRanks.indexOf(_.max(nextMoveRanks));
+    // Make appropriate move
+    if (nextMove < 2) {
+      console.log('a diagonal move is best');
+    } else if (nextMove < 5) {
+      console.log('a row move is best');
+    } else {
+      console.log('a column move is best');
+    }
+
     console.log(computerToken);
     console.log(nextMoveRanks);
   }
