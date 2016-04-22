@@ -31,39 +31,33 @@ angular.module('ticTacToeApp', [])
     var chosen = false;
     // Find out which next move for player is best and take it
 
+    // Check for 2 in a row
+    function twoInRowCheck(array, computerToken, playerToken) {
+      array.forEach(function(row, index) {
+        var tokenCount = row.reduce(function(acc, square) {
+          return acc + (square.token === (playerToken || computerToken) ? 1 : 0);
+        }, 0);
+        if (tokenCount === 2) {
+          for (var l = 0; l < 3; l++) {
+            if (row[l].token === '') {
+              row[l].token = computerToken;
+              chosen = true;
+            }
+          }
+
+        }
+      });
+    }
     //TODO: If comp has 2 in a single row, play the remaining square
-    rows.forEach(function(row, index) {
-      var tokenCount = row.reduce(function(acc, square) {
-        return acc + (square.token === computerToken ? 1 : 0);
-      }, 0);
-      if (tokenCount === 2) {
-        for (var l = 0; l < 3; l++) {
-          if (row[l].token === '') {
-            row[l].token = computerToken;
-            chosen = true;
-          }
-        }
-        
-      }
-    });
+    twoInRowCheck(rows, computerToken);
     // TODO: If comp has 2 in a single column, play the remaining square
-    obj.gameBoard.forEach(function(col, index) {
-      var tokenCount = col.reduce(function(acc, square) {
-        return acc + (square.token === computerToken ? 1 : 0);
-      }, 0);
-      if (tokenCount === 2) {
-        for (var m = 0; m < 3; m++) {
-          if (col[m].token === '') {
-            col[m].token = computerToken;
-            chosen = true;
-          }
-        }
-        
-      }
-    });
+    twoInRowCheck(obj.gameBoard, computerToken);
     // TODO: Block any opponent 2 in a row
+    twoInRowCheck(rows, computerToken, obj._playerToken);
     // TODO: Block any opponent 2 in a column
+    twoInRowCheck(obj.gameBoard, computerToken, obj._playerToken);
     // TODO: Fork attempt
+    
     // TODO: Block an opponent fork
     
     // Play center square
