@@ -33,11 +33,38 @@ angular.module('ticTacToeApp', [])
 
     //TODO: If comp has 2 in a single row, play the remaining square
     rows.forEach(function(row, index) {
-      console.log(row.reduce(function(acc, square) {
+      var tokenCount = row.reduce(function(acc, square) {
         return acc + (square.token === computerToken ? 1 : 0);
-      }, 0));
+      }, 0);
+      if (tokenCount === 2) {
+        for (var l = 0; l < 3; l++) {
+          if (row[l].token === '') {
+            row[l].token = computerToken;
+            chosen = true;
+          }
+        }
+        
+      }
     });
     // TODO: If comp has 2 in a single column, play the remaining square
+    obj.gameBoard.forEach(function(col, index) {
+      var tokenCount = col.reduce(function(acc, square) {
+        return acc + (square.token === computerToken ? 1 : 0);
+      }, 0);
+      if (tokenCount === 2) {
+        for (var m = 0; m < 3; m++) {
+          if (col[m].token === '') {
+            col[m].token = computerToken;
+            chosen = true;
+          }
+        }
+        
+      }
+    });
+    // TODO: Block any opponent 2 in a row
+    // TODO: Block any opponent 2 in a column
+    // TODO: Fork attempt
+    // TODO: Block an opponent fork
     
     // Play center square
     if (!chosen && obj.gameBoard[1][1].token === '') {
