@@ -238,11 +238,15 @@ angular.module('ticTacToeApp', [])
     // Check for win
     obj.winState = checkResults(obj.gameBoard, computerToken);
     //TODO: Update scoreboard
-    var full = false;
+    var full = _.flatten(obj.gameBoard).every(function(square) {
+      return (square.token === 'X' || square.token === 'O');
+    });
     if (obj.winState) {
       // Add +1 to winner
-    } else if (!obj.winState && full)
-    console.log('winState: ' + obj.winState);
+    } else if (!obj.winState && full) {
+      alert('Tie!');
+      obj.winState = true;
+    }
   }
   
   // INITIALIZATION

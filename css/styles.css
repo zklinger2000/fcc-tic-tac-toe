@@ -14,9 +14,10 @@ html, body {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
 }
-.chooseToken {
+.choose-token, .score-board {
   align-self: center;
   padding: 20px;
+  height: 110px;
 }
 .gameBoard {
   width: 320px;
@@ -62,7 +63,9 @@ html, body {
   display: flex;
   flex-wrap: wrap;
 }
-
+.new-game {
+  margin: 20px;
+}
 
 /*===============
   Media Queries

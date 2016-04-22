@@ -24,7 +24,7 @@
     <header>
       <h1>Tic Tac Toe</h1>
     </header>
-    <div class="input-group chooseToken" ng-show="vm.ticTacToe._playerToken === ''">
+    <div class="input-group choose-token" ng-show="vm.ticTacToe._playerToken === ''">
       <label for="chooseToken">Choose token: </label><br>
       <div id="chooseToken" class="btn-group" data-toggle="buttons">
         <label class="btn btn-default" ng-click="vm.ticTacToe.setPlayerToken('X')">
@@ -35,12 +35,19 @@
         </label>
       </div>
     </div>
+    <div class="score-board" ng-hide="vm.ticTacToe._playerToken === ''">
+      <label for="scoreBoard">Player 1: </label><br>
+      <div id="scoreBoard" ng-bind="vm.ticTacToe._playerToken"></div>
+    </div>
     <div class="gameBoard">
       <div ng-repeat="column in vm.ticTacToe.gameBoard" class="column">
         <div class="square" ng-repeat="square in column" ng-click="vm.ticTacToe.winState||vm.ticTacToe.pickSquare(square)">
           {{ square.token }}
         </div>
       </div>
+    </div>
+    <div class="new-game">
+      <div class="btn btn-primary" ng-show="vm.ticTacToe.winState">New Game</div>
     </div>
   </div>
 </body>
