@@ -181,7 +181,7 @@ angular.module('ticTacToeApp', [])
     var token = square.token;
     // Check for empty player token
     if (this._playerToken === '') {
-      console.error('no player token set!');
+      alert('First choose X\'s or O\'s!');
       return;
     }
     // Check if square is empty
@@ -189,7 +189,7 @@ angular.module('ticTacToeApp', [])
       // Set token
       square.token = this._playerToken;
     } else {
-      console.error('it is has a "' + square.token + '" there');
+      alert('it is has an "' + square.token + '" there already!');
       return;
     }
     // Check for win
