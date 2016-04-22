@@ -37,7 +37,7 @@ angular.module('ticTacToeApp', [])
         var tokenCount = row.reduce(function(acc, square) {
           return acc + (square.token === (playerToken || computerToken) ? 1 : 0);
         }, 0);
-        if (tokenCount === 2) {
+        if (!chosen && tokenCount === 2) {
           for (var l = 0; l < 3; l++) {
             if (row[l].token === '') {
               row[l].token = computerToken;
@@ -48,18 +48,36 @@ angular.module('ticTacToeApp', [])
         }
       });
     }
-    //TODO: If comp has 2 in a single row, play the remaining square
+    // If comp has 2 in a single row, play the remaining square
     twoInRowCheck(rows, computerToken);
-    // TODO: If comp has 2 in a single column, play the remaining square
+    // If comp has 2 in a single column, play the remaining square
     twoInRowCheck(obj.gameBoard, computerToken);
-    // TODO: Block any opponent 2 in a row
+    // Block any opponent 2 in a row
     twoInRowCheck(rows, computerToken, obj._playerToken);
-    // TODO: Block any opponent 2 in a column
+    // Block any opponent 2 in a column
     twoInRowCheck(obj.gameBoard, computerToken, obj._playerToken);
-    // TODO: Fork attempt
-    
+    // Fork attempt
+    function fork(array, computerToken, playerToken) {
+      if (!chosen && (array[0].token === computerToken) && (array[1].token === playerToken) && (array[2].token === '')) {
+        array[2].token = computerToken;
+        chosen = true;
+      } else if (!chosen && (array[2].token === computerToken) && (array[1].token === playerToken) && (array[0].token === '')) {
+        array[0].token = computerToken;
+        chosen = true;
+      }
+    }
+    fork(diag1, computerToken, obj._playerToken);
+    fork(diag2, computerToken, obj._playerToken);
     // TODO: Block an opponent fork
-    
+    function blockFork(array, computerToken, playerToken) {
+      if (!chosen && (array[0].token === playerToken) && (array[1].token === computerToken) && (array[2].token === playerToken)) {
+        playSides(sides);
+      } else if (!chosen && (array[2].token === playerToken) && (array[1].token === computerToken) && (array[0].token === playerToken)) {
+        playSides(sides);
+      }
+    }
+    blockFork(diag1, computerToken, obj._playerToken);
+    blockFork(diag2, computerToken, obj._playerToken);
     // Play center square
     if (!chosen && obj.gameBoard[1][1].token === '') {
       obj.gameBoard[1][1].token = computerToken;
@@ -80,12 +98,15 @@ angular.module('ticTacToeApp', [])
       }
     }
     // Play any remaining middle side
-    for (var i = 0; i < 4; i++) {
-      if (!chosen && sides[i].token === '') {
-        sides[i].token = computerToken;
-        chosen = true;
+    function playSides(sides) {
+      for (var i = 0; i < 4; i++) {
+        if (!chosen && sides[i].token === '') {
+          sides[i].token = computerToken;
+          chosen = true;
+        }
       }
     }
+    playSides(sides);
     // Check for win
     obj.winState = checkResults(obj.gameBoard, computerToken);
 //    console.log(obj.winState);
