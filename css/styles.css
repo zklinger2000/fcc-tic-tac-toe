@@ -19,16 +19,40 @@ html, body {
   padding: 20px;
 }
 .gameBoard {
-  width: 300px;
+  width: 320px;
   margin: 0 auto;
-}
-.square {
-  height: 100px;
-  width: 100px;
-  color: #222;
+  padding: 15px;
   background: #ddd;
 }
-
+.square {
+  height: 90px;
+  width: 90px;
+  color: #222;
+  background: #ddd;
+  font-size: 4em;
+  padding: 7px;
+}
+.column:nth-child(1) {
+  border-right: 5px solid #222;
+}
+.column:nth-child(2) {
+  border-left: 5px solid #222;
+  border-right: 5px solid #222;
+}
+.column:nth-child(3) {
+  border-left: 5px solid #222;
+}
+.square:nth-child(1) {
+  border-bottom: 5px solid #222;
+}
+.square:nth-child(2) {
+  height: 100px;
+  border-top: 5px solid #222;
+  border-bottom: 5px solid #222;
+}
+.square:nth-child(3) {
+  border-top: 5px solid #222;
+}
 /* Flexbox */
 .wrapper {
   display: flex;

@@ -36,11 +36,9 @@
       </div>
     </div>
     <div class="gameBoard">
-      <div ng-repeat="row in vm.ticTacToe.gameBoard">
-        <div class="square" ng-repeat="square in row" ng-click="vm.ticTacToe.winState||vm.ticTacToe.pickSquare(square)">
-          row: {{ square.row }}
-          col: {{ square.col }}
-          token: {{ square.token }}
+      <div ng-repeat="column in vm.ticTacToe.gameBoard" class="column">
+        <div class="square" ng-repeat="square in column" ng-click="vm.ticTacToe.winState||vm.ticTacToe.pickSquare(square)">
+          {{ square.token }}
         </div>
       </div>
     </div>
