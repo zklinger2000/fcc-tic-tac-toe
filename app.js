@@ -14,10 +14,13 @@ angular.module('ticTacToeApp', [])
   
 })
 .service('TicTacToe', function() {
+  // PUBLIC VARIABLES
   this._playerToken = '';
   this.turnToken = 'X';
   this.gameBoard = [];
   this.winState = false;
+  
+  // PUBLIC METHODS
   
   // Reset method
   this.reset = function() {
@@ -33,7 +36,6 @@ angular.module('ticTacToeApp', [])
       }
     }
     this.gameBoard = newBoard;
-    console.log(this.gameBoard);
   }
   
   // Set Player token
@@ -69,12 +71,29 @@ angular.module('ticTacToeApp', [])
     }
     // Check for win
     this.winState = checkResults(this.gameBoard, this._playerToken);
-    console.log('winState: ' + this.winState);
     // If no winner, call next player's turn (computer)
     if (!this.winState) {
       computerTurn(this);
     }
-    // if it's a win, add to score of turn token
+    // Check for tie and end game
+    var full = _.flatten(this.gameBoard).every(function(square) {
+      return (square.token === 'X' || square.token === 'O');
+    });
+    if (this.winState) {
+      // Add +1 to winner
+    } else if (!this.winState && full) {
+      this.winState = true;
+      alert('Tie!');
+    }
+  }
+  
+  // Reset game and player token
+  this.newGame = function() {
+    this._playerToken = '';
+    this.turnToken = 'X';
+    this.gameBoard = [];
+    this.winState = false;
+    this.reset();
   }
   
   // PRIVATE METHODS
@@ -194,7 +213,6 @@ angular.module('ticTacToeApp', [])
     
     // Set move choice made state
     obj.chosen = false;
-    // Find out which next move for player is best and take it
 
     // If comp has 2 in a single row, play the remaining square
     twoInRowCheck(rows, obj, computerToken);
@@ -221,7 +239,8 @@ angular.module('ticTacToeApp', [])
     }
     // Play an opposite corner
     for (var k = 0; k < 4; k++) {
-      if (!obj.chosen && corners[k].token === obj._playerToken && corners[(k < 2 ? k + 2 : k - 2)].token === '') {
+      if (!obj.chosen && corners[k].token === obj._playerToken &&
+          corners[(k < 2 ? k + 2 : k - 2)].token === '') {
         corners[(k < 2 ? k + 2 : k - 2)].token = computerToken;
         obj.chosen = true;
       }
@@ -237,20 +256,20 @@ angular.module('ticTacToeApp', [])
     playSides(sides, obj, computerToken);
     // Check for win
     obj.winState = checkResults(obj.gameBoard, computerToken);
-    //TODO: Update scoreboard
+    // Check for tie and end game
     var full = _.flatten(obj.gameBoard).every(function(square) {
       return (square.token === 'X' || square.token === 'O');
     });
     if (obj.winState) {
       // Add +1 to winner
     } else if (!obj.winState && full) {
-      alert('Tie!');
       obj.winState = true;
+      alert('Tie!');
     }
   }
   
   // INITIALIZATION
-  //
+
   // Create a new game
   this.reset();
   
