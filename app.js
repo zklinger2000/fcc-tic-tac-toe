@@ -66,7 +66,7 @@ angular.module('ticTacToeApp', [])
       // Set token
       square.token = this._playerToken;
     } else {
-      alert('it is has an "' + square.token + '" there already!');
+      alert('There is an "' + square.token + '" there already!');
       return;
     }
     // Check for win
