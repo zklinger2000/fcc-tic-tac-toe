@@ -25,45 +25,50 @@ angular.module('ticTacToeApp', [])
     var rows = _.zip.apply(this, obj.gameBoard);
     var diag1 = [obj.gameBoard[0][0], obj.gameBoard[1][1], obj.gameBoard[2][2]];
     var diag2 = [obj.gameBoard[0][2], obj.gameBoard[1][1], obj.gameBoard[2][0]];
+    var sides = [obj.gameBoard[0][1], obj.gameBoard[1][0], obj.gameBoard[1][2], obj.gameBoard[2][1]];
+    var corners = [obj.gameBoard[0][0], obj.gameBoard[0][2], obj.gameBoard[2][2], obj.gameBoard[2][0]];
     var nextMoveRanks = [];
-
+    var chosen = false;
     // Find out which next move for player is best and take it
-    
-    // Reduce both diagonals into their number of player tokens
-    // diag1
-    nextMoveRanks.push(diag1.reduce(function(acc, square) {
-      return acc + (square.token === obj._playerToken ? 1 : 0);
-    }, 0));
-    // diag2
-    nextMoveRanks.push(diag2.reduce(function(acc, square) {
-      return acc + (square.token === obj._playerToken ? 1 : 0);
-    }, 0));
-    // Reduce each row into its number of player tokens
-    console.log(rows);
-    rows.forEach(function(row) {
-      nextMoveRanks.push(row.reduce(function(acc, square) {
-        return acc + (square.token === obj._playerToken ? 1 : 0);
-      }, 0));
-    });
-    // Reduce each column into its number of player tokens
-    obj.gameBoard.forEach(function(col) {
-      nextMoveRanks.push(col.reduce(function(acc, square) {
-        return acc + (square.token === obj._playerToken ? 1 : 0);
-      }, 0));
-    });
-    // Find highest ranked move
-    var nextMove = nextMoveRanks.indexOf(_.max(nextMoveRanks));
-    // Make appropriate move
-    if (nextMove < 2) {
-      console.log('a diagonal move is best');
-    } else if (nextMove < 5) {
-      console.log('a row move is best');
-    } else {
-      console.log('a column move is best');
-    }
 
-    console.log(computerToken);
-    console.log(nextMoveRanks);
+    //TODO: If comp has 2 in a single row, play the remaining square
+    rows.forEach(function(row, index) {
+      console.log(row.reduce(function(acc, square) {
+        return acc + (square.token === computerToken ? 1 : 0);
+      }, 0));
+    });
+    // TODO: If comp has 2 in a single column, play the remaining square
+    
+    // Play center square
+    if (!chosen && obj.gameBoard[1][1].token === '') {
+      obj.gameBoard[1][1].token = computerToken;
+      chosen = true;
+    }
+    // Play an opposite corner
+    for (var k = 0; k < 4; k++) {
+      if (!chosen && corners[k].token === obj._playerToken && corners[(k < 2 ? k + 2 : k - 2)].token === '') {
+        corners[(k < 2 ? k + 2 : k - 2)].token = computerToken;
+        chosen = true;
+      }
+    }
+    // Play any empty corner
+    for (var j = 0; j < 4; j++) {
+      if (!chosen && corners[j].token === '') {
+        corners[j].token = computerToken;
+        chosen = true;
+      }
+    }
+    // Play any remaining middle side
+    for (var i = 0; i < 4; i++) {
+      if (!chosen && sides[i].token === '') {
+        sides[i].token = computerToken;
+        chosen = true;
+      }
+    }
+    // Check for win
+    obj.winState = checkResults(obj.gameBoard, computerToken);
+//    console.log(obj.winState);
+    console.log('winState: ' + obj.winState);
   }
   
   // Check for win
@@ -122,7 +127,7 @@ angular.module('ticTacToeApp', [])
     if (this._playerToken === 'O') {
       this._computerToken = 'X';
       // Set first move
-      this.gameBoard[1][1].token = 'X';
+      this.gameBoard[0][0].token = 'X';
     } else {
       this._computerToken = 'O';
     }
@@ -139,7 +144,6 @@ angular.module('ticTacToeApp', [])
     }
     // Check if square is empty
     if (token === '') {
-      console.info('it is EMPTY!');
       // Set token
       square.token = this._playerToken;
     } else {
@@ -148,7 +152,7 @@ angular.module('ticTacToeApp', [])
     }
     // Check for win
     this.winState = checkResults(this.gameBoard, this._playerToken);
-    console.log(this.winState);
+    console.log('winState: ' + this.winState);
     // If no winner, call next player's turn (computer)
     if (!this.winState) {
       computerTurn(this);
